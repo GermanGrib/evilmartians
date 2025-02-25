@@ -1,5 +1,6 @@
 import AuthStatus from "@/types/auth-statuses";
 import { setCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 const MOCK_LOGIN_ACC = {
   email: "evil@martians.com",
@@ -37,7 +38,7 @@ const handleAuth = (
   email: string,
   password: string,
   login: () => void,
-  router: any,
+  router: ReturnType<typeof useRouter>,
   setErrors: (errors: { email?: string; password?: string }) => void,
 ) => {
   const response = authUser(email, password);

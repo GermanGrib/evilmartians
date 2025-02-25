@@ -1,25 +1,24 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import RoutesPaths from "@/types/routes-paths";
 
-const protectedRoutes = ["/evilmartinas"];
+const protectedRoutes = [RoutesPaths.EVILMARTINAS];
 
 export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
   const isAuthenticated =
     request.cookies.get("isAuthenticated")?.value === "true";
 
-  const { pathname } = request.nextUrl;
-
-  if (!isAuthenticated && protectedRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL("/login", request.url));
+  if (
+    !isAuthenticated &&
+    protectedRoutes.includes(pathname as "/evilmartinas")
+  ) {
+    return NextResponse.redirect(new URL(RoutesPaths.LOGIN, request.url));
   }
 
-  if (isAuthenticated && pathname === "/login") {
-    return NextResponse.redirect(new URL("/", request.url));
+  if (isAuthenticated && pathname === RoutesPaths.LOGIN) {
+    return NextResponse.redirect(new URL(RoutesPaths.HOME, request.url));
   }
 
   return NextResponse.next();
 }
-
-export const config = {
-  matcher: ["/login", "/evilmartinas", "/"],
-};

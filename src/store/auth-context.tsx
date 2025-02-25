@@ -8,6 +8,8 @@ import {
 } from "react";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 
+const ONE_DAY = 60 * 60 * 24;
+
 interface AuthContextType {
   isAuthenticated: boolean;
   initialized: boolean;
@@ -32,7 +34,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const login = () => {
-    setCookie("isAuthenticated", "true", { path: "/", maxAge: 60 * 60 * 24 });
+    setCookie("isAuthenticated", "true", { path: "/", maxAge: ONE_DAY });
     setIsAuthenticated(true);
   };
 

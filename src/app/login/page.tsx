@@ -58,7 +58,7 @@ const LoginPage = () => {
 
   return (
     <div className="container flex justify-center">
-      <div className="flex w-full bg-white rounded p-4">
+      <div className="flex w-full max-w-[400px] bg-white rounded p-4">
         <form
           onSubmit={handleSubmit}
           noValidate
@@ -75,6 +75,7 @@ const LoginPage = () => {
               placeholder="Email"
               value={email}
               onChange={handleEmailChange}
+              autoFocus
             />
             <div className={`min-h-[20px] ${errorStyle}`}>
               {errors.email && errors.email}

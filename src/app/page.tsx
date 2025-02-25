@@ -3,6 +3,8 @@ import Image from "next/image";
 import { useAuth } from "@/store/auth-context";
 import RoutesPaths from "@/types/routes-paths";
 import Link from "next/link";
+import ringPng from "@/assets/imgs/ring.png";
+import alienWebp from "@/assets/imgs/alien.webp";
 
 export default function Home() {
   const { initialized, isAuthenticated } = useAuth();
@@ -10,13 +12,15 @@ export default function Home() {
   return (
     <section>
       <div className="container flex flex-col justify-center">
+        {!initialized && <div>Loading...</div>}
         {isAuthenticated && initialized && (
           <Image
+            style={{ width: 400, height: 300 }}
             priority
             className="m-auto"
-            width={300}
+            width={400}
             height={300}
-            src="/ring.png"
+            src={ringPng}
             alt="Ring"
           />
         )}
@@ -24,8 +28,9 @@ export default function Home() {
           <div className="flex flex-col gap-2 justify-center items-center">
             <Image
               priority
+              style={{ width: 400, height: 300 }}
               className="rounded"
-              src="/alien.webp"
+              src={alienWebp}
               alt="Home"
               width={400}
               height={300}

@@ -16,12 +16,14 @@ const Header = () => {
         <nav>
           <ul className="flex gap-4">
             <li>
-              <Link
-                className={`hidden lg:flex lg:hover:text-em-main-hover ${pathName === RoutesPaths.HOME ? "underline" : ""}`}
-                href={RoutesPaths.HOME}
-              >
-                Home
-              </Link>
+              {initialized && (
+                <Link
+                  className={`hidden lg:flex lg:hover:text-em-main-hover ${pathName === RoutesPaths.HOME ? "underline" : ""}`}
+                  href={RoutesPaths.HOME}
+                >
+                  Home
+                </Link>
+              )}
             </li>
             <li className="flex gap-4">
               {isAuthenticated && initialized && (
