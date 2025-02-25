@@ -12,6 +12,7 @@ export default function Home() {
       <div className="container flex flex-col justify-center">
         {isAuthenticated && initialized && (
           <Image
+            priority
             className="m-auto"
             width={300}
             height={300}

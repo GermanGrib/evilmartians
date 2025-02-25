@@ -2,14 +2,16 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/store/auth-context";
-import { getCookie, setCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 import RoutesPaths from "@/types/routes-paths";
+import {
+  handleAuth,
+  sanitizeInput,
+  validateEmail,
+  validatePassword,
+} from "@/utils/form-tools";
 
-// const handleLogin = (e: FormEvent<HTMLFormElement>) => {
-//   e.preventDefault();
-// };
 const LoginPage = () => {
-  const ONE_DAY = 60 * 60 * 24;
   const router = useRouter();
   const { login } = useAuth();
   const [email, setEmail] = useState<string>("");
@@ -32,61 +34,21 @@ const LoginPage = () => {
   }, [email, password]);
   const isFormValid = email && password && !errors.email && !errors.password;
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) {
-      return "Please enter a valid email address";
-    }
-    return "";
-  };
-
-  const validatePassword = (password: string) => {
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\W).+$/;
-    if (!password) {
-      return "Password is required";
-    } else if (password.length < 6) {
-      return "Password must be at least 6 characters long";
-    } else if (!passwordRegex.test(password)) {
-      return "Password must contain at least one uppercase letter and one special character";
-    }
-    return "";
-  };
-
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newEmail = e.target.value;
+    const newEmail = sanitizeInput(e.target.value);
     setEmail(newEmail);
     setErrors((prev) => ({ ...prev, email: validateEmail(newEmail) }));
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newPassword = e.target.value;
+    const newPassword = sanitizeInput(e.target.value);
     setPassword(newPassword);
     setErrors((prev) => ({ ...prev, password: validatePassword(newPassword) }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const emailError = validateEmail(email);
-    const passwordError = validatePassword(password);
-    if (!emailError && !passwordError) {
-      const mockFetchAuthResponse = { success: true, token: "mock-token" };
-
-      if (mockFetchAuthResponse.success) {
-        setCookie("isAuthenticated", "true", { path: "/", maxAge: ONE_DAY });
-        setCookie("token", mockFetchAuthResponse.token, {
-          path: "/",
-          maxAge: ONE_DAY,
-        });
-
-        login();
-        router.push(RoutesPaths.HOME);
-      }
-    } else {
-      setErrors({
-        email: emailError,
-        password: passwordError,
-      });
-    }
+    handleAuth(email, password, login, router, setErrors);
   };
 
   const inputStyle =
