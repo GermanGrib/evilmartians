@@ -1,4 +1,4 @@
-const EvilMartinasPage = () => {
+const EvilMartiansPage = () => {
   return (
     <section>
       <div className="container">
@@ -8,4 +8,4 @@ const EvilMartinasPage = () => {
   );
 };
 
-export default EvilMartinasPage;
+export default EvilMartiansPage;

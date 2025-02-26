@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import RoutesPaths from "@/types/routes-paths";
 
-const protectedRoutes = [RoutesPaths.EVILMARTINAS];
+const protectedRoutes = [RoutesPaths.EVILMARTIANS];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
 
   if (
     !isAuthenticated &&
-    protectedRoutes.includes(pathname as "/evilmartinas")
+    protectedRoutes.includes(pathname as "/evilmartians")
   ) {
     return NextResponse.redirect(new URL(RoutesPaths.LOGIN, request.url));
   }
