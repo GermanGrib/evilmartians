@@ -1,6 +1,5 @@
 import AuthStatus from "@/types/auth-statuses";
 import { setCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
 
 const MOCK_LOGIN_ACC = {
   email: "evil@martians.com",
@@ -34,30 +33,42 @@ const authUser = (email: string, password: string) => {
     : AuthStatus.SUCCESS;
 };
 
-const handleAuth = (
+const handleAuth = async (
   email: string,
   password: string,
   login: () => void,
-  router: ReturnType<typeof useRouter>,
   setErrors: (errors: { email?: string; password?: string }) => void,
 ) => {
-  const response = authUser(email, password);
-  const mockFetchAuthResponse = { success: true, token: "mock-token" };
+  try {
+    const mockFetchAuthResponse = await new Promise<{
+      success: boolean;
+      token: string;
+    }>((resolve, reject) => {
+      setTimeout(() => {
+        const response = authUser(email, password);
+        if (response !== AuthStatus.SUCCESS) {
+          reject("The email and password combination is incorrect.");
+        } else {
+          resolve({ success: true, token: "mock-token" });
+        }
+      }, 2000);
+    });
 
-  if (response !== AuthStatus.SUCCESS) {
-    setErrors({ password: "The email and password combination is incorrect." });
-    return AuthStatus.UNAUTHORIZED;
+    setCookie("isAuthenticated", "true", { path: "/", maxAge: ONE_DAY });
+    setCookie("token", mockFetchAuthResponse.token, {
+      path: "/",
+      maxAge: ONE_DAY,
+    });
+
+    login();
+    return AuthStatus.SUCCESS;
+  } catch (error) {
+    console.error("Auth error:", error);
+    setErrors({
+      password: "The email and password combination is incorrect.",
+    });
+    return AuthStatus.ERROR;
   }
-
-  setCookie("isAuthenticated", "true", { path: "/", maxAge: ONE_DAY });
-  setCookie("token", mockFetchAuthResponse.token, {
-    path: "/",
-    maxAge: ONE_DAY,
-  });
-
-  login();
-  router.push("/");
-  return AuthStatus.SUCCESS;
 };
 
 const sanitizeInput = (input: string) => {
