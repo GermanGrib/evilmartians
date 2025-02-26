@@ -1,7 +1,7 @@
 const RoutesPaths = {
   HOME: "/",
   LOGIN: "/login",
-  EVILMARTINAS: "/evilmartinas",
+  EVILMARTIANS: "/evilmartians",
 } as const;
 
 export default RoutesPaths;

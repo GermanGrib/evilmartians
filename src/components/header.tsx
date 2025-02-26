@@ -28,8 +28,8 @@ const Header = () => {
             <li className="flex gap-4">
               {isAuthenticated && initialized && (
                 <Link
-                  href={RoutesPaths.EVILMARTINAS}
-                  className={`lg:hover:text-em-main-hover ${pathName === RoutesPaths.EVILMARTINAS ? "underline" : ""}`}
+                  href={RoutesPaths.EVILMARTIANS}
+                  className={`lg:hover:text-em-main-hover ${pathName === RoutesPaths.EVILMARTIANS ? "underline" : ""}`}
                 >
                   Martinas
                 </Link>
