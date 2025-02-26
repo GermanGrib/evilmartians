@@ -40,33 +40,48 @@ const handleAuth = async (
   setErrors: (errors: { email?: string; password?: string }) => void,
 ) => {
   try {
-    const mockFetchAuthResponse = await new Promise<{
-      success: boolean;
-      token: string;
-    }>((resolve, reject) => {
-      setTimeout(() => {
-        const response = authUser(email, password);
-        if (response !== AuthStatus.SUCCESS) {
-          reject("The email and password combination is incorrect.");
-        } else {
-          resolve({ success: true, token: "mock-token" });
-        }
-      }, 2000);
-    });
+    const checkInternet = await fetch(
+      "https://jsonplaceholder.typicode.com/posts",
+      {
+        method: "GET",
+      },
+    )
+      .then((res) => res.ok)
+      .catch(() => {
+        throw new Error(
+          "Network error occurred. Please check your connection.",
+        );
+      });
 
-    setCookie("isAuthenticated", "true", { path: "/", maxAge: ONE_DAY });
-    setCookie("token", mockFetchAuthResponse.token, {
-      path: "/",
-      maxAge: ONE_DAY,
-    });
+    if (checkInternet) {
+      const mockFetchAuthResponse = await new Promise<{
+        success: boolean;
+        token: string;
+      }>((resolve, reject) => {
+        setTimeout(() => {
+          const response = authUser(email, password);
+          if (response !== AuthStatus.SUCCESS) {
+            reject({
+              message: "The email and password combination is incorrect.",
+            });
+          } else {
+            resolve({ success: true, token: "mock-token" });
+          }
+        }, 2000);
+      });
 
-    login();
-    return AuthStatus.SUCCESS;
+      setCookie("isAuthenticated", "true", { path: "/", maxAge: ONE_DAY });
+      setCookie("token", mockFetchAuthResponse.token, {
+        path: "/",
+        maxAge: ONE_DAY,
+      });
+
+      login();
+      return AuthStatus.SUCCESS;
+    }
   } catch (error) {
     console.error("Auth error:", error);
-    setErrors({
-      password: "The email and password combination is incorrect.",
-    });
+    setErrors({ password: (error as Error).message });
     return AuthStatus.ERROR;
   }
 };
