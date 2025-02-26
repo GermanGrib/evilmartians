@@ -29,7 +29,7 @@ export default function Home() {
             <Image
               priority
               style={{ width: 400, height: 300 }}
-              className="rounded"
+              className="rounded object-contain"
               src={alienWebp}
               alt="Home"
               width={400}
