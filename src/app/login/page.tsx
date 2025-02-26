@@ -41,13 +41,18 @@ const LoginPage = () => {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = sanitizeInput(e.target.value);
     setEmail(newEmail);
-    setTouched((prev) => ({ ...prev, email: true }));
+    setTouched((prev) => ({ ...prev, email: false }));
+    setErrors({ email: "" });
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = sanitizeInput(e.target.value);
+    setTouched((prev) => ({ ...prev, password: false }));
     setPassword(newPassword);
-    setTouched((prev) => ({ ...prev, password: true }));
+  };
+
+  const handleBlur = (field: "email" | "password") => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -90,13 +95,20 @@ const LoginPage = () => {
             </label>
             <input
               id="email"
+              autoComplete="username"
+              aria-required="true"
+              aria-describedby="email-error"
               className={inputStyle}
               type="email"
               placeholder="Email"
               value={email}
               onChange={handleEmailChange}
+              onBlur={() => handleBlur("email")}
             />
-            <div className={`min-h-[20px] ${errorStyle}`}>
+            <div
+              className={`min-h-[20px] ${errorStyle}`}
+              aria-errormessage="email-error"
+            >
               {errors.email && errors.email}
             </div>
           </div>
@@ -108,11 +120,18 @@ const LoginPage = () => {
               id="password"
               className={inputStyle}
               type="password"
+              aria-required="true"
+              aria-describedby="password-error"
+              autoComplete="current-password"
               placeholder="Password"
               value={password}
+              onBlur={() => handleBlur("password")}
               onChange={handlePasswordChange}
             />
-            <div className={`min-h-[60px] ${errorStyle}`}>
+            <div
+              className={`min-h-[60px] ${errorStyle}`}
+              aria-errormessage="password-error"
+            >
               {errors.password && errors.password}
             </div>
           </div>
