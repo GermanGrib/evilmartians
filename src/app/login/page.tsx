@@ -36,8 +36,6 @@ const LoginPage = () => {
     });
   }, [email, password, touched]);
 
-  const isFormValid = email && password && !errors.email && !errors.password;
-
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = sanitizeInput(e.target.value);
     setEmail(newEmail);
@@ -138,12 +136,12 @@ const LoginPage = () => {
 
           <button
             className={`py-2 ${
-              isFormValid && !isLoading
+              !isLoading
                 ? "bg-em-secondary hover:bg-em-secondary-hover"
                 : "bg-em-secondary opacity-30"
             } rounded`}
             type="submit"
-            disabled={isLoading || !isFormValid}
+            disabled={isLoading}
           >
             {isLoading ? "Processing..." : "Login"}
           </button>
