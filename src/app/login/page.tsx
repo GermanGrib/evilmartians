@@ -10,12 +10,15 @@ import {
   validateEmail,
   validatePassword,
 } from "@/utils/form-tools";
+import AuthStatus from "@/types/auth-statuses";
 
 const LoginPage = () => {
   const router = useRouter();
   const { login } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [touched, setTouched] = useState({ email: false, password: false });
+  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
@@ -28,27 +31,44 @@ const LoginPage = () => {
 
   useEffect(() => {
     setErrors({
-      email: validateEmail(email),
-      password: validatePassword(password),
+      email: touched.email ? validateEmail(email) : "",
+      password: touched.password ? validatePassword(password) : "",
     });
-  }, [email, password]);
+  }, [email, password, touched]);
+
   const isFormValid = email && password && !errors.email && !errors.password;
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = sanitizeInput(e.target.value);
     setEmail(newEmail);
-    setErrors((prev) => ({ ...prev, email: validateEmail(newEmail) }));
+    setTouched((prev) => ({ ...prev, email: true }));
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = sanitizeInput(e.target.value);
     setPassword(newPassword);
-    setErrors((prev) => ({ ...prev, password: validatePassword(newPassword) }));
+    setTouched((prev) => ({ ...prev, password: true }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    handleAuth(email, password, login, router, setErrors);
+    setTouched({ email: true, password: true });
+
+    const emailError = validateEmail(email);
+    const passwordError = validatePassword(password);
+
+    if (emailError || passwordError) {
+      setErrors({ email: emailError, password: passwordError });
+      return;
+    }
+
+    setIsLoading(true);
+    const result = await handleAuth(email, password, login, setErrors);
+    setIsLoading(false);
+
+    if (result === AuthStatus.SUCCESS) {
+      router.push(RoutesPaths.HOME);
+    }
   };
 
   const inputStyle =
@@ -75,7 +95,6 @@ const LoginPage = () => {
               placeholder="Email"
               value={email}
               onChange={handleEmailChange}
-              autoFocus
             />
             <div className={`min-h-[20px] ${errorStyle}`}>
               {errors.email && errors.email}
@@ -100,14 +119,14 @@ const LoginPage = () => {
 
           <button
             className={`py-2 ${
-              isFormValid
+              isFormValid && !isLoading
                 ? "bg-em-secondary hover:bg-em-secondary-hover"
                 : "bg-em-secondary opacity-30"
             } rounded`}
             type="submit"
-            disabled={!isFormValid}
+            disabled={isLoading || !isFormValid}
           >
-            Login
+            {isLoading ? "Processing..." : "Login"}
           </button>
         </form>
       </div>
