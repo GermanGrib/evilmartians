@@ -78,7 +78,7 @@ const LoginPage = () => {
     setIsLoading(false);
 
     if (result === AuthStatus.SUCCESS) {
-      router.push(RoutesPaths.EVILMARTIANS);
+      router.push(RoutesPaths.HOME);
     }
   };
 
