@@ -4,6 +4,7 @@ import "../assets/globals.css";
 import { ReactNode } from "react";
 import Header from "@/components/header";
 import { AuthProvider } from "@/store/auth-context";
+import MobileMenu from "@/components/mobile-menu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,8 @@ export default function RootLayout({
       >
         <AuthProvider>
           <Header />
-          <main className="flex-grow">{children}</main>
+          <main className="flex-grow relative">{children}</main>
+          <MobileMenu />
         </AuthProvider>
       </body>
     </html>

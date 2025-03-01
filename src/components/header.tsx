@@ -9,16 +9,19 @@ const Header = () => {
   const { isAuthenticated, initialized, logout } = useAuth();
   const pathName = usePathname() || "";
 
+  const linkCommonStyle =
+    "hidden px-5 py-4 rounded-xl ring-1 ring-[#E6E6E6] transition lg:flex justify-center items-center lg:hover:bg-[#b097f9] lg:hover:text-white";
+
   return (
-    <header className="mb-2 py-4">
+    <header className="py-2">
       <div className="container flex justify-between items-center">
-        <Logo className="w-16 h-16 lg:hover:text-em-main-hover" />
+        <Logo className="w-12 h-12 lg:w-16 lg:h-16 lg:hover:text-em-tertiriary" />
         <nav>
           <ul className="flex gap-4">
             <li>
               {initialized && (
                 <Link
-                  className={`hidden lg:flex lg:hover:text-em-main-hover ${pathName === RoutesPaths.HOME ? "underline" : ""}`}
+                  className={`${linkCommonStyle} ${pathName === RoutesPaths.HOME ? "bg-em-tertiriary text-white" : ""}`}
                   href={RoutesPaths.HOME}
                 >
                   Home
@@ -29,14 +32,14 @@ const Header = () => {
               {isAuthenticated && initialized && (
                 <Link
                   href={RoutesPaths.EVILMARTIANS}
-                  className={`lg:hover:text-em-main-hover ${pathName === RoutesPaths.EVILMARTIANS ? "underline" : ""}`}
+                  className={`${linkCommonStyle} ${pathName === RoutesPaths.EVILMARTIANS ? "bg-em-tertiriary text-white" : ""}`}
                 >
                   Martinas
                 </Link>
               )}
               {!isAuthenticated && initialized && (
                 <Link
-                  className={`lg:hover:text-em-main-hover ${pathName === RoutesPaths.LOGIN ? "hidden" : "flex"}`}
+                  className={`${linkCommonStyle} ${pathName === RoutesPaths.LOGIN ? "bg-em-tertiriary text-white" : ""}`}
                   href={RoutesPaths.LOGIN}
                 >
                   Login
@@ -46,7 +49,7 @@ const Header = () => {
             {isAuthenticated && initialized && (
               <li onClick={logout}>
                 <Link
-                  className={`lg:hover:text-em-main-hover`}
+                  className={`${linkCommonStyle} text-sm lg:text-base`}
                   href={RoutesPaths.HOME}
                 >
                   Logout

@@ -81,7 +81,7 @@ const handleAuth = async (
     }
   } catch (error) {
     console.error("Auth error:", error);
-    setErrors({ password: (error as Error).message });
+    setErrors({ password: (error as Error).message, email: " " });
     return AuthStatus.ERROR;
   }
 };

@@ -38,6 +38,7 @@ export default {
         "em-outline": "#4b4b4b",
         "em-secondary": "#005fcc",
         "em-secondary-hover": "#0077e1",
+        "em-tertiriary": "#7647F9",
       },
     },
   },
