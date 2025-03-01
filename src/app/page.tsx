@@ -9,7 +9,7 @@ export default function Home() {
     <>
       {isAuthenticated && initialized && (
         <div className="flex flex-col gap-2 lg:gap-4">
-          <div className="flex absolute select-none top-4 w-full justify-center flex-grow lg:text-lg text-center text-white">
+          <div className="flex absolute select-none top-24 w-full justify-center flex-grow lg:text-lg text-center text-white">
             Logged in
           </div>
           <Image
