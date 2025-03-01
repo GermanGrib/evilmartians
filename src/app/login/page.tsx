@@ -93,7 +93,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="container absolute top-[37%] left-1/2 -translate-y-1/2 -translate-x-1/2 flex justify-center ">
+    <div className="container absolute top-[45%] left-1/2 -translate-y-1/2 -translate-x-1/2 flex justify-center ">
       <div className="flex w-full max-w-[400px] bg-white rounded p-4 pb-8">
         <div className="flex flex-col w-full">
           <div className="flex mb-5 justify-between items-center">
@@ -137,7 +137,6 @@ const LoginPage = () => {
                   type="email"
                   placeholder="Email"
                   value={email}
-                  autoFocus
                   onChange={handleEmailChange}
                   onBlur={() => handleBlur("email")}
                 />

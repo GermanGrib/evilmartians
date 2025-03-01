@@ -33,7 +33,9 @@ export default function RootLayout({
       >
         <AuthProvider>
           <Header />
-          <main className="flex-grow relative">{children}</main>
+          <main className="flex-grow relative pt-[75px] lg:pt-3">
+            {children}
+          </main>
           <MobileMenu />
         </AuthProvider>
       </body>

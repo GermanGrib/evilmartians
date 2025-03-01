@@ -16,8 +16,11 @@ const MobileMenu = () => {
       <div className="flex justify-between items-center">
         <Link
           href={RoutesPaths.HOME}
-          className={`flex flex-col gap-1 items-center ${pathName === RoutesPaths.HOME ? "text-em-tertiriary" : "text-[#A0AAB6]"}`}
+          className={`relative flex flex-col gap-1 items-center ${pathName === RoutesPaths.HOME ? "text-em-tertiriary" : "text-[#A0AAB6]"}`}
         >
+          <div
+            className={`absolute -top-3.5 w-2 h-2 rounded bg-em-tertiriary ${pathName === RoutesPaths.HOME ? "flex" : "hidden"}`}
+          />
           <HomeIcon className="h-9 w-9 " />
           <span
             className={`text-xs font-normal select-none ${
@@ -30,12 +33,15 @@ const MobileMenu = () => {
         {isNotAuthenticated && initialized && (
           <Link
             href={RoutesPaths.LOGIN}
-            className={`flex flex-col gap-1 items-center ${pathName === RoutesPaths.LOGIN ? "text-em-tertiriary" : "text-[#dadee2]"}`}
+            className={`relative flex flex-col gap-1 items-center ${pathName === RoutesPaths.LOGIN ? "text-em-tertiriary" : "text-[#dadee2]"}`}
           >
+            <div
+              className={`absolute -top-3.5 w-2 h-2 rounded bg-em-tertiriary ${pathName === RoutesPaths.LOGIN ? "flex" : "hidden"}`}
+            />
             <div
               className={`flex justify-center items-center p-1.5 h-9 w-9 ${pathName === RoutesPaths.LOGIN ? "bg-[#cbbbfc]" : "bg-[#9fa9b5]"} rounded-lg`}
             >
-              <LoginIconMobileMenu />
+              <LoginIconMobileMenu className="w-6 h-6" />
             </div>
             <span
               className={`text-xs font-normal select-none ${
@@ -51,8 +57,11 @@ const MobileMenu = () => {
         {isAuthenticated && initialized && (
           <Link
             href={RoutesPaths.EVILMARTIANS}
-            className={`flex flex-col gap-1 items-center ${pathName === RoutesPaths.EVILMARTIANS ? "text-em-tertiriary" : "text-[#dadee2]"}`}
+            className={`relative flex flex-col gap-1 items-center ${pathName === RoutesPaths.EVILMARTIANS ? "text-em-tertiriary" : "text-[#dadee2]"}`}
           >
+            <div
+              className={`absolute -top-3.5 w-2 h-2 rounded bg-em-tertiriary ${pathName === RoutesPaths.EVILMARTIANS ? "flex" : "hidden"}`}
+            />
             <div
               className={`flex justify-center items-center p-1.5 h-9 w-9 ${pathName === RoutesPaths.EVILMARTIANS ? "bg-[#cbbbfc]" : "bg-[#9fa9b5]"} rounded-lg`}
             >
