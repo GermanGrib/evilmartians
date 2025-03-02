@@ -10,7 +10,7 @@ const Header = () => {
   const pathName = usePathname() || "";
 
   const linkCommonStyle =
-    "px-5 py-4 rounded-xl ring-1 ring-[#E6E6E6] transition  justify-center items-center lg:hover:bg-[#b097f9] lg:hover:text-white";
+    "px-5 py-4 rounded-xl ring-1 ring-[#E6E6E6] transition  justify-center items-center lg:hover:bg-[#b097f9] lg:hover:text-white focus:outline-black";
 
   return (
     <header className="py-2 fixed lg:static bg-white lg:bg-transparent w-full z-50">
