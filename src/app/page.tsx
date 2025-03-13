@@ -2,15 +2,11 @@
 import { useAuth } from "@/store/auth-context";
 import Image from "next/image";
 import Loader from "@/components/loader";
-import Link from "next/link";
 
 export default function Home() {
   const { initialized, isAuthenticated } = useAuth();
   return (
     <>
-      <div className="container">
-        <Link href={"https://moskva.x-tehnika.ru/"}>Ссылка на Х МОТОРС</Link>
-      </div>
       {isAuthenticated && initialized && (
         <div className="flex flex-col gap-2 lg:gap-4">
           <div className="flex absolute select-none top-24 w-full justify-center flex-grow lg:text-lg text-center text-white">
